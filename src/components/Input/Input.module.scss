@@ -1,0 +1,89 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+  color: #495057;
+  font-size: 14px;
+
+  .label {
+    width: 100%;
+    padding: 5px 2px;
+  }
+
+  .labelDisabled {
+    color: #bdc5cd;
+  }
+
+  .labelRequired::after {
+    content: "\002A";
+    margin-left: 3px;
+    color: #d22626;
+  }
+
+  .inputElement {
+    flex-grow: 2;
+    max-width: 100%;
+    height: 15px;
+    background-color: #ffffff;
+
+    &::placeholder {
+      color: #adb5bd;
+    }
+
+    &:disabled {
+      border-color: #bdc5cd;
+    }
+  }
+
+  .inputWrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+    max-width: 100%;
+
+    .inputContent {
+      display: flex;
+      align-items: center;
+    }
+
+    .inputElement {
+      padding: 5px 10px;
+      color: #495057;
+      font-size: inherit;
+      border: 1px solid #adb5bd;
+      border-radius: 3px;
+    }
+
+    .inputElementNoError:focus {
+      border-color: #a6dee1;
+      box-shadow: 0 0 0 0.15rem rgba(71, 186, 193, 0.25);
+      outline: 0;
+    }
+
+    .inputElementError {
+      border-color: #f40700;
+
+      &:focus {
+        box-shadow: 0 0 0 1px #f40700;
+      }
+    }
+
+    .errorMessage {
+      height: 0.7rem;
+      padding: 3px 0 0 2px;
+      color: #f40700;
+      font-size: 0.7rem;
+      text-align: left;
+    }
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+}
