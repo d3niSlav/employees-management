@@ -20,10 +20,10 @@ function EmployeesList() {
         setAllEmployees(employeesData);
         setEmployeeList(employeesData);
 
-        setIsLoading(false)
+        setIsLoading(false);
       })
       .catch(error => {
-        setIsLoading(false)
+        setIsLoading(false);
       });
   }
 
@@ -44,11 +44,11 @@ function EmployeesList() {
       .catch(error => {
         alert(error);
       });
-  }
+  };
 
   const clearEmployeeForDeletion = () => {
     setEmployeeForDeletion(null);
-  }
+  };
 
   const openEditEmployeeModal = employeeData => {
     setEmployeeForEdit(employeeData);
@@ -89,7 +89,7 @@ function EmployeesList() {
           console.log(error);
         });
     }
-  }
+  };
 
   const clearEmployeeForEdit = () => {
     setEmployeeForEdit(null);

@@ -1,5 +1,5 @@
 export const compareObjects = (key, order = 'asc') => {
-  return function innerSort(firstObject, secondObject) {
+  return (firstObject, secondObject) => {
     if (!firstObject.hasOwnProperty(key) || !secondObject.hasOwnProperty(key)) {
       return 0;
     }
