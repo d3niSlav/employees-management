@@ -49,6 +49,7 @@ const Modal = ({
       document.body.style.overflow = 'initial';
       closeModal();
     }
+    // eslint-disable-next-line
   }, [isOpen]);
 
   if (showCloseButton !== undefined && showCloseButton !== false) {
