@@ -1,0 +1,32 @@
+.headerRow {
+  border-top: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+
+  .columnHeader {
+    padding: 15px 0;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+
+    .arrows {
+      &::before {
+        content: "\2191";
+        margin-left: 5px;
+      }
+
+      &::after {
+        content: "\2193";
+      }
+
+      &::before,
+      &::after {
+        opacity: 0.5;
+      }
+
+      &.asc::before,
+      &.desc::after {
+        opacity: 1;
+      }
+    }
+  }
+}
