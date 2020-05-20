@@ -1,0 +1,78 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  margin: 5px;
+  padding: 5px 10px;
+  color: #f3f9ff;
+  font-size: 0.85rem;
+  border: 1px solid;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+}
+
+.sm {
+  padding: 1px 5px;
+  font-size: 0.5rem;
+}
+
+.md {
+  padding: 8px 15px;
+  font-size: 0.85rem;
+}
+
+.lg {
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+$colors: (
+  'primary': #1b93cf,
+  'secondary': #a24fb7,
+  'success': #60c27e,
+  'error': #ee4d54,
+  'warning': #f8992b,
+  'info': #5b7bfc
+);
+
+@function create-box-shadow($color, $isOutlined) {
+  @if $isOutlined {
+    @return 0 0 5px 0.05rem $color;
+  } @else {
+    @return 0 0 0 0.15rem $color;
+  }
+}
+
+@each $name, $color in $colors {
+  .#{$name} {
+    color: #f3f9ff;
+    background-color: $color;
+    border-color: $color;
+
+    &:active,
+    &:focus {
+      box-shadow: create-box-shadow(lighten($color, 10%), false);
+    }
+
+    &:disabled {
+      background-color: lighten($color, 20%);
+      border-color: lighten($color, 20%);
+      cursor: not-allowed;
+    }
+
+    &:active,
+    &:focus,
+    &:hover:not([disabled]) {
+      background-color: darken($color, 20%);
+      border-color: darken($color, 20%);
+    }
+  }
+}
+
