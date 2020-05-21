@@ -2,6 +2,12 @@
   width: 400px;
   margin: 250px auto 0;
   text-align: center;
+
+  @media screen and (max-width: 599px) {
+    max-width: 400px;
+    width: 100%;
+    margin-top: 90px;
+  }
 }
 
 .avatar {

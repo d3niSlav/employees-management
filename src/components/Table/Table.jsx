@@ -1,3 +1,4 @@
+import { Add } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -59,17 +60,32 @@ const Table = ({
   return (
     <div className={styles.tableWrapper}>
       <div className={styles.header}>
-        <h1 className={styles.title}>{title}</h1>
+        <div className={styles.headerTitleWrapper}>
+          <h1 className={styles.title}>{title}</h1>
+          {headerButtonConfig && (
+            <div className={styles.addButtonWrapperLeft}>
+              <Button
+                id="new-employee-button"
+                size="sm"
+                colorScheme="success"
+                buttonText={<Add />}
+                onClick={headerButtonConfig.onClick}
+              />
+            </div>
+          )}
+        </div>
         <div className={styles.headerActions}>
           {onFilterSubmit && <TableFilter onFilterSubmit={onFilterSubmit} />}
           {headerButtonConfig && (
-            <Button
-              id="new-item-button"
-              size="md"
-              colorScheme="success"
-              buttonText={headerButtonConfig.text}
-              onClick={headerButtonConfig.onClick}
-            />
+            <div className={styles.addButtonWrapperRight}>
+              <Button
+                id="create-employee-button"
+                size="md"
+                colorScheme="success"
+                buttonText={headerButtonConfig.text}
+                onClick={headerButtonConfig.onClick}
+              />
+            </div>
           )}
         </div>
       </div>

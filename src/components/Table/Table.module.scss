@@ -11,6 +11,32 @@
     align-items: center;
     justify-content: space-between;
 
+    @media screen and (max-width: 599px) {
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .addButtonWrapperLeft {
+      display: none;
+
+      @media screen and (max-width: 799px) {
+        display: block;
+      }
+    }
+
+    .addButtonWrapperRight {
+      display: block;
+
+      @media screen and (max-width: 799px) {
+        display: none;
+      }
+    }
+
+    .headerTitleWrapper {
+      display: flex;
+      align-items: center;
+    }
+
     .title {
       font-size: 1.3rem;
       font-weight: 500;
@@ -28,5 +54,10 @@
     padding: 10px;
     text-align: left;
     border-collapse: collapse;
+
+    @media screen and (max-width: 599px) {
+      display: block;
+      overflow-x: scroll;
+    }
   }
 }
