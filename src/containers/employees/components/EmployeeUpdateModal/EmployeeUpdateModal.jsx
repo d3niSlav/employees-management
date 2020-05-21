@@ -6,7 +6,7 @@ import Form from '../../../../components/Form';
 import Modal from '../../../../components/Modal';
 import { EMPLOYEE_FORM_CONFIG } from '../../../../utils/constants';
 
-const EmployeeEditModal = ({
+const EmployeeUpdateModal = ({
   employeeToEdit,
   onEditCancel,
   onEditConfirm
@@ -33,7 +33,7 @@ const EmployeeEditModal = ({
     <Modal
       isOpen={!!employeeToEdit}
       colorScheme="primary"
-      title="Edit an employee"
+      title={`${(employeeToEdit && employeeToEdit.id) ? 'Edit' : 'Create'} an employee`}
       content={editForm}
       customActions={<></>}
       handleModalClose={onEditCancel}
@@ -41,7 +41,7 @@ const EmployeeEditModal = ({
   );
 };
 
-EmployeeEditModal.propTypes = {
+EmployeeUpdateModal.propTypes = {
   employeeToEdit: PropTypes.shape({
     age: PropTypes.number,
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -53,4 +53,4 @@ EmployeeEditModal.propTypes = {
   onEditConfirm: PropTypes.func
 };
 
-export default EmployeeEditModal;
+export default EmployeeUpdateModal;
