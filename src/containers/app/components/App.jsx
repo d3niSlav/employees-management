@@ -3,6 +3,7 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import Layout from './Layout';
 import { EmployeeProfile, EmployeesList } from '../../employees';
+import NotFound from '../../../components/NotFound';
 
 const App = () => (
   <BrowserRouter>
@@ -10,7 +11,8 @@ const App = () => (
       <Switch>
         <Route path="/" exact component={EmployeesList} />
         <Route path="/view/:employeeId" component={EmployeeProfile} />
-        <Redirect to="/" />
+        <Route path="/404" component={NotFound} />
+        <Redirect to="/404" />
       </Switch>
     </Layout>
   </BrowserRouter>
