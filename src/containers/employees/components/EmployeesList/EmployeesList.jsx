@@ -87,7 +87,7 @@ function EmployeesList() {
     if (query) {
       const filteredEmployees = allEmployees.filter(employee => {
         const employeeName = (employee && employee.name) ? employee.name.toLowerCase() : null;
-        return employeeName ? employeeName.indexOf(query.toLowerCase()) > 0 : false;
+        return employeeName ? employeeName.indexOf(query.toLowerCase()) >= 0 : false;
       });
 
       setEmployeeList(filteredEmployees);
