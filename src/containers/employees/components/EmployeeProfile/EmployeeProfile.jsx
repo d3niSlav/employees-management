@@ -4,8 +4,12 @@ import { useHistory, useParams } from 'react-router-dom';
 import EmployeeDeleteModal from '../EmployeeDeleteModal';
 import EmployeeEditModal from '../EmployeeEditModal';
 import ProfileCard from '../../../../components/ProfileCard';
+import {
+  deleteEmployee,
+  readEmployee,
+  updateEmployee
+} from '../../../../services/employeeService';
 import { convertEmployeeObject } from '../../../../utils/helpers';
-import { del, get, put } from '../../../../utils/requestWrapper';
 
 const EmployeeProfile = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -15,13 +19,60 @@ const EmployeeProfile = () => {
   const { employeeId } = useParams();
   const history = useHistory();
 
+  const loadEmployee = employeeId => {
+    setIsLoading(true);
+    readEmployee(employeeId)
+      .then(employee => {
+        setEmployee(convertEmployeeObject(employee));
+        setIsLoading(false);
+      })
+      .catch(error => {
+        setIsLoading(false);
+        alert(error);
+      });
+  };
+
+  useEffect(() => {
+    loadEmployee(employeeId);
+  }, [employeeId]);
+
+  const openEditEmployeeModal = () => {
+    setEmployeeForEdit(employee);
+  };
+
+  const clearEmployeeForEdit = () => {
+    setEmployeeForEdit(null);
+  };
+
+  const editEmployee = employeeData => {
+    const { id, name, profileImage, age, salary } = employeeData;
+    const updatedEmployee = {
+      id,
+      employee_age: parseInt(age),
+      employee_name: name,
+      employee_salary: parseFloat(salary),
+      profile_image: profileImage
+    };
+
+    setIsLoading(true);
+    updateEmployee(updatedEmployee)
+      .then(updatedEmployee => {
+        setEmployeeForEdit(null);
+        setEmployee(convertEmployeeObject(updatedEmployee));
+      })
+      .catch(error => {
+        setEmployeeForEdit(null);
+        alert(error);
+      });
+  };
+
   const openDeleteEmployeeModal = () => {
     setEmployeeForDeletion(employee);
   };
 
-  const deleteEmployee = () => {
+  const removeEmployee = () => {
     setIsLoading(true);
-    del(`/employee/${employee.id}`)
+    deleteEmployee(employee.id)
       .then(() => {
         setEmployeeForDeletion(null);
         setIsLoading(false);
@@ -37,51 +88,6 @@ const EmployeeProfile = () => {
     setEmployeeForDeletion(null);
   };
 
-  const openEditEmployeeModal = () => {
-    setEmployeeForEdit(employee);
-  };
-
-  const editEmployee = employeeData => {
-    const { id, name, profileImage, age, salary } = employeeData;
-    const updatedEmployee = {
-      id,
-      employee_age: parseInt(age),
-      employee_name: name,
-      employee_salary: parseFloat(salary),
-      profile_image: profileImage
-    };
-
-    put(`/employee/${id}`, updatedEmployee)
-      .then(updatedEmployee => {
-        setEmployeeForEdit(null);
-        setEmployee(convertEmployeeObject(updatedEmployee));
-      })
-      .catch(error => {
-        setEmployeeForEdit(null);
-        console.log(error);
-      });
-  };
-
-  const clearEmployeeForEdit = () => {
-    setEmployeeForEdit(null);
-  };
-
-  const loadEmployee = employeeId => {
-    setIsLoading(true);
-    get(`/employee/${employeeId}`)
-      .then(employee => {
-        setEmployee(convertEmployeeObject(employee));
-        setIsLoading(false);
-      })
-      .catch(error => {
-        setIsLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    loadEmployee(employeeId);
-  }, [employeeId]);
-
   return employee && (
     <>
       <ProfileCard
@@ -92,7 +98,7 @@ const EmployeeProfile = () => {
       <EmployeeDeleteModal
         employeeForDeletion={employeeForDeletion}
         onDeletionCancel={clearEmployeeForDeletion}
-        onDeletionConfirm={deleteEmployee}
+        onDeletionConfirm={removeEmployee}
       />
       <EmployeeEditModal
         employeeToEdit={employeeForEdit}

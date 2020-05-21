@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import EmployeeDeleteModal from '../EmployeeDeleteModal';
 import EmployeeEditModal from '../EmployeeEditModal';
 import Table from '../../../../components/Table';
+import { deleteEmployee, readAllEmployees, updateEmployee } from '../../../../services/employeeService';
 import { compareObjects, parseEmployees } from '../../../../utils/helpers';
-import { del, get, post, put } from '../../../../utils/requestWrapper';
 
 function EmployeesList() {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,7 +14,8 @@ function EmployeesList() {
   const [employeeForEdit, setEmployeeForEdit] = useState(null);
 
   const loadEmployees = () => {
-    get('/employee')
+    setIsLoading(true);
+    readAllEmployees()
       .then(employees => {
         const employeesData = parseEmployees(employees).sort(compareObjects('id', 'asc'));
         setAllEmployees(employeesData);
@@ -24,43 +25,28 @@ function EmployeesList() {
       })
       .catch(error => {
         setIsLoading(false);
+        alert(error);
       });
-  }
+  };
 
   useEffect(() => {
     loadEmployees();
   }, []);
 
-  const openDeleteEmployeeModal = employeeData => {
-    setEmployeeForDeletion(employeeData);
-  };
-
-  const deleteEmployee = employeeId => {
-    del(`/employee/${employeeId}`)
-      .then(employees => {
-        setEmployeeForDeletion(null);
-        loadEmployees();
-      })
-      .catch(error => {
-        alert(error);
-      });
-  };
-
-  const clearEmployeeForDeletion = () => {
-    setEmployeeForDeletion(null);
+  const openCreateEmployeeModal = () => {
+    setEmployeeForEdit({});
   };
 
   const openEditEmployeeModal = employeeData => {
     setEmployeeForEdit(employeeData);
   };
 
-  const openCreateEmployeeModal = () => {
-    setEmployeeForEdit({});
+  const clearEmployeeForEdit = () => {
+    setEmployeeForEdit(null);
   };
 
   const editEmployee = employeeData => {
     const { id, name, profileImage, age, salary } = employeeData;
-
     const updatedEmployee = {
       employee_age: parseInt(age),
       employee_name: name,
@@ -68,31 +54,33 @@ function EmployeesList() {
       profile_image: profileImage
     };
 
-    if (id) {
-      put(`/employee/${id}`, { ...updatedEmployee, id })
-        .then(() => {
-          setEmployeeForEdit(null);
-          loadEmployees();
-        })
-        .catch(error => {
-          setEmployeeForEdit(null);
-          console.log(error);
-        });
-    } else {
-      post(`/employee`, updatedEmployee)
-        .then(() => {
-          setEmployeeForEdit(null);
-          loadEmployees();
-        })
-        .catch(error => {
-          setEmployeeForEdit(null);
-          console.log(error);
-        });
-    }
+    updateEmployee({ ...updatedEmployee, id })
+      .then(() => {
+        setEmployeeForEdit(null);
+        loadEmployees();
+      })
+      .catch(error => {
+        alert(error);
+      });
   };
 
-  const clearEmployeeForEdit = () => {
-    setEmployeeForEdit(null);
+  const openDeleteEmployeeModal = employeeData => {
+    setEmployeeForDeletion(employeeData);
+  };
+
+  const clearEmployeeForDeletion = () => {
+    setEmployeeForDeletion(null);
+  };
+
+  const removeEmployee = employeeId => {
+    deleteEmployee(employeeId)
+      .then(() => {
+        setEmployeeForDeletion(null);
+        loadEmployees();
+      })
+      .catch(error => {
+        alert(error);
+      });
   };
 
   const handleFilterSubmit = query => {
@@ -143,7 +131,7 @@ function EmployeesList() {
       <EmployeeDeleteModal
         employeeForDeletion={employeeForDeletion}
         onDeletionCancel={clearEmployeeForDeletion}
-        onDeletionConfirm={deleteEmployee}
+        onDeletionConfirm={removeEmployee}
       />
       <EmployeeEditModal
         employeeToEdit={employeeForEdit}
