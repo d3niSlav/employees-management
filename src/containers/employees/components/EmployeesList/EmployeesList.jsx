@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import EmployeeDeleteModal from '../EmployeeDeleteModal';
-import EmployeeEditModal from '../EmployeeEditModal';
+import EmployeeUpdateModal from '../EmployeeUpdateModal';
 import Table from '../../../../components/Table';
 import { deleteEmployee, readAllEmployees, updateEmployee } from '../../../../services/employeeService';
 import { compareObjects, parseEmployees } from '../../../../utils/helpers';
@@ -133,7 +133,7 @@ function EmployeesList() {
         onDeletionCancel={clearEmployeeForDeletion}
         onDeletionConfirm={removeEmployee}
       />
-      <EmployeeEditModal
+      <EmployeeUpdateModal
         employeeToEdit={employeeForEdit}
         onEditCancel={clearEmployeeForEdit}
         onEditConfirm={editEmployee}

@@ -1,14 +1,11 @@
+import { Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import EmployeeDeleteModal from '../EmployeeDeleteModal';
-import EmployeeEditModal from '../EmployeeEditModal';
+import EmployeeUpdateModal from '../EmployeeUpdateModal';
 import ProfileCard from '../../../../components/ProfileCard';
-import {
-  deleteEmployee,
-  readEmployee,
-  updateEmployee
-} from '../../../../services/employeeService';
+import { deleteEmployee, readEmployee, updateEmployee } from '../../../../services/employeeService';
 import { convertEmployeeObject } from '../../../../utils/helpers';
 
 const EmployeeProfile = () => {
@@ -59,9 +56,11 @@ const EmployeeProfile = () => {
       .then(updatedEmployee => {
         setEmployeeForEdit(null);
         setEmployee(convertEmployeeObject(updatedEmployee));
+        setIsLoading(false);
       })
       .catch(error => {
         setEmployeeForEdit(null);
+        setIsLoading(false);
         alert(error);
       });
   };
@@ -100,11 +99,16 @@ const EmployeeProfile = () => {
         onDeletionCancel={clearEmployeeForDeletion}
         onDeletionConfirm={removeEmployee}
       />
-      <EmployeeEditModal
+      <EmployeeUpdateModal
         employeeToEdit={employeeForEdit}
         onEditCancel={clearEmployeeForEdit}
         onEditConfirm={editEmployee}
       />
+      {isLoading && (
+        <Typography align="center" variant="h6" component="p">
+          Loading...
+        </Typography>
+      )}
     </>
   );
 };
