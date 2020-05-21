@@ -50,7 +50,7 @@ export const getErrorMessage = (value, validations) => {
     }
 
     if (validations.regex && validations.regex.rule instanceof RegExp && !validations.regex.rule.test(value)) {
-      errorMessage = validations.required.errorText;
+      errorMessage = validations.regex.errorText;
     }
 
     if (validations.min && +value < validations.min.value) {
@@ -66,7 +66,7 @@ export const getErrorMessage = (value, validations) => {
     }
 
     if (validations.maxLength && value && value.length > validations.maxLength.value) {
-      errorMessage = validations.minLength.errorText;
+      errorMessage = validations.maxLength.errorText;
     }
   }
 
