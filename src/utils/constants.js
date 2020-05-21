@@ -53,7 +53,7 @@ export const EMPLOYEE_FORM_CONFIG = {
       min: {
         value: 0,
         errorText: 'Please enter a valid salary amount!'
-      },
+      }
     }
   },
   profileImage: {
